@@ -6,7 +6,7 @@
 {% block content %}
 <div class="container mt-4">
     <h2>Registro</h2>
-    <form method="POST" class="needs-validation" novalidate>
+    <form method="POST">
         {% csrf_token %}
         {% for field in form %}
         <div class="form-group">

@@ -185,10 +185,10 @@ def procesar_compra(request):
                 response = transaction.create(buy_order=buy_order, session_id=session_id, amount=total_amount, return_url=return_url)
 
                 if response:
-                    order.webpay_token = response['token']
-                    order.webpay_url = response['url']
+                    order.webpay_token = response.token                    # ← response.token (sin corchetes)
+                    order.webpay_url = response.url                        # ← response.url (sin corchetes)
                     order.save()
-                    return redirect(response['url'] + '?token_ws=' + response['token'])
+                    return redirect(response.url + '?token_ws=' + response.token)  # ← response.url y response.token
                 else:
                     return HttpResponse("Error al iniciar la transacción con WebPay")
             except Exception as e:
@@ -211,6 +211,7 @@ def order_success(request, order_id):
     return render(request, 'ferreteria/order_success.html', {'order': order})
 
 @login_required
+@login_required
 def confirmar_pago(request):
     token = request.GET.get('token_ws')
     try:
@@ -219,7 +220,7 @@ def confirmar_pago(request):
         transaction = Transaction()
         response = transaction.commit(token=token)
 
-        if response.get('status') == 'AUTHORIZED':
+        if response.status == 'AUTHORIZED':  # ← CAMBIADO: response.status en lugar de response.get('status')
             # Obtener la orden correspondiente
             order = get_object_or_404(Order, webpay_token=token)
 
@@ -240,14 +241,14 @@ def confirmar_pago(request):
             # Eliminar los items del carrito después de la confirmación exitosa
             carrito_items.delete()
 
-            fecha_original = response.get('transaction_date')
+            fecha_original = response.transaction_date  # ← CAMBIADO: response.transaction_date en lugar de response.get('transaction_date')
             fecha_datetime = datetime.strptime(fecha_original, '%Y-%m-%dT%H:%M:%S.%fZ')
             fecha_formateada = fecha_datetime.strftime('%d-%m-%Y')
 
             compra_datos = {
-                'orden_compra': response.get('buy_order'),
-                'monto': response.get('amount'),
-                'codigo_autorizacion': response.get('authorization_code'),
+                'orden_compra': response.buy_order,  # ← CAMBIADO: response.buy_order
+                'monto': response.amount,  # ← CAMBIADO: response.amount
+                'codigo_autorizacion': response.authorization_code,  # ← CAMBIADO: response.authorization_code
                 'fecha': fecha_formateada,
                 'productos': productos_comprados,
                 'metodo_entrega': order.delivery_method,
@@ -259,7 +260,8 @@ def confirmar_pago(request):
     except Exception as e:
         print(f"Error al confirmar la transacción con WebPay: {e}")
         return render(request, 'ferreteria/error_pago.html', {'error': str(e)})
-
+    
+    
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
