@@ -1,0 +1,37 @@
+{% extends "ferreteria/base.html" %}
+
+{% load static %}
+
+{% block title %}Catálogo{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Catálogo de Productos</h2>
+    {% for categoria in categorias %}
+    <div class="card mb-3">
+        <div class="card-header">
+         
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#subcategorias-{{ categoria.id }}" aria-expanded="false" aria-controls="subcategorias-{{ categoria.id }}">
+                {{ categoria.nombre }}
+            </button>
+        </div>
+      
+        <div class="collapse" id="subcategorias-{{ categoria.id }}">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for subcategoria in categoria.subcategoria_set.all %}
+                    <li class="list-group-item">
+                        <a href="{% url 'subcategoria_productos' subcategoria.id %}">{{ subcategoria.nombre }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<script>
+
+</script>
+{% endblock %}
+

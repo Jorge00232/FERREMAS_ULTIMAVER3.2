@@ -1,0 +1,49 @@
+{% extends "ferreteria/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Carrito de Compras</h2>
+  <div class="row">
+    {% for item in carrito_items %}
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.producto.nombre }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Marca: {{ item.producto.marca }}</h6>
+            <p class="card-text">{{ item.producto.descripcion }}</p>
+            <p class="card-text"><strong>Precio:</strong> ${{ item.producto.precio }} CLP</p>
+            {% if item.producto.imagen %}
+              <img src="{{ item.producto.imagen.url }}" class="card-img-top" alt="{{ item.producto.nombre }}" style="width:100%; height:auto;">
+            {% else %}
+              <img src="{% static 'default-image.jpg' %}" class="card-img-top" alt="Imagen por defecto" style="width:100%; height:auto;">
+            {% endif %}
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div class="btn-group">
+                <a href="{% url 'eliminar_producto_del_carrito' item.producto.id %}" class="btn btn-outline-danger">Eliminar</a>
+              </div>
+              <div class="btn-group">
+                <a href="{% url 'restar_producto_del_carrito' item.producto.id %}" class="btn btn-outline-warning">-</a>
+                <span class="btn btn-outline-secondary">{{ item.cantidad }}</span>
+                <a href="{% url 'sumar_producto_al_carrito' item.producto.id %}" class="btn btn-outline-success">+</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="row mt-4">
+    <div class="col-12">
+      <p class="text-right"><strong>Total:</strong> ${{ total_amount }} CLP</p>
+      <a href="{% url 'catalogo' %}" class="btn btn-secondary">Seguir Comprando</a>
+      <form action="{% url 'procesar_compra' %}" method="post" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Comprar</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+

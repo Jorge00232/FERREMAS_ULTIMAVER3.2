@@ -1,0 +1,26 @@
+{% extends "ferreteria/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-success">
+        <h4 class="alert-heading">¡Compra Exitosa!</h4>
+        <p>Tu compra ha sido procesada correctamente.</p>
+        <hr>
+        <h5>Detalles de la Compra</h5>
+        <p><strong>Orden de Compra:</strong> {{ compra_datos.orden_compra }}</p>
+        <p><strong>Monto Total:</strong> ${{ compra_datos.monto }} CLP</p>
+        <p><strong>Código de Autorización:</strong> {{ compra_datos.codigo_autorizacion }}</p>
+        <p><strong>Fecha:</strong> {{ compra_datos.fecha }}</p>
+        <h5>Productos Comprados:</h5>
+        <ul>
+            {% for producto in compra_datos.productos %}
+                <li>{{ producto.nombre }} ({{ producto.cantidad }} x ${{ producto.precio }} CLP) - Total: ${{ producto.total }} CLP</li>
+            {% endfor %}
+        </ul>
+        <h5>Método de Entrega:</h5>
+        <p><strong>Tipo:</strong> {{ compra_datos.metodo_entrega }}</p>
+        <p><strong>Dirección de Entrega:</strong> {{ compra_datos.direccion_entrega }}</p>
+    </div>
+</div>
+{% endblock %}

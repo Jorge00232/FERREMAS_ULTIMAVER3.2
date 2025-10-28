@@ -1,0 +1,9 @@
+{% extends "ferreteria/base.html" %}
+
+{% block content %}
+<h2>Compra Exitosa</h2>
+<p>Su compra ha sido procesada exitosamente.</p>
+<p>Order ID: {{ order.id }}</p>
+<p>Monto Total: {{ order.total_amount }} CLP</p>
+{% endblock %}
+

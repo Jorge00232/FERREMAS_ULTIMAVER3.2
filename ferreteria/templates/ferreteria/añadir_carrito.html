@@ -1,0 +1,10 @@
+{% extends "ferreteria/base.html" %}
+
+{% block content %}
+  <h2>Añadir {{ producto.nombre }} al carrito</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Añadir al carrito</button>
+  </form>
+{% endblock %}

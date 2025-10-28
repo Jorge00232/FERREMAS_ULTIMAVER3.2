@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Pago</title>
+</head>
+<body>
+    <h1>Confirmar Pago</h1>
+    <form action="{% url 'confirmar_pago' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="token_ws" value="{{ token_ws }}">
+        <button type="submit">Confirmar Pago</button>
+    </form>
+</body>
+</html>

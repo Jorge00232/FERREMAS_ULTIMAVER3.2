@@ -1,0 +1,96 @@
+{% extends "ferreteria/base.html" %}
+{% load static %}
+
+{% block title %}
+Inicio - FERREMAS
+{% endblock %}
+
+{% block content %}
+<style>
+.carousel-inner img {
+    width: 100%;
+    height: 500px; 
+    object-fit: cover; 
+}
+.card-img-top {
+    width: 200px;
+    height: 200px; /* Ajusta la altura según tus necesidades */
+    object-fit: cover;
+}
+.card {
+    height: 100%; /* Asegura que la tarjeta ocupe toda la altura */
+    display: flex;
+    flex-direction: column;
+}
+.card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.card-img-top-container {
+    width: 100%;
+    height: 200px; /* Ajusta la altura según tus necesidades */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+</style>
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'images/imagen_1.png' %}" class="d-block w-100" alt="Imagen 1">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'images/imagen_2.jpg' %}" class="d-block w-100" alt="Imagen 2">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'images/imagen3.jpeg' %}" class="d-block w-100" alt="Imagen 3">
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Anterior</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Siguiente</span>
+    </a>
+</div>
+
+<div class="jumbotron text-center mt-4">
+    <h1>Bienvenido a FERREMAS</h1>
+    <p>Tu tienda de confianza para herramientas y suministros de ferretería</p>
+</div>
+
+<div class="container mt-4">
+    <h2>Productos Destacados</h2>
+    <div class="row">
+        {% for producto in productos_destacados %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ producto.nombre }}</h5>
+                    <p class="card-text">{{ producto.descripcion }}</p>
+                    <p class="card-text"><strong>Precio:</strong> ${{ producto.precio | floatformat:2 }} CLP</p>
+                    <a href="{% url 'producto_detalle' producto.id %}" class="btn btn-primary mt-auto">Ver Detalle</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center">
+        <a href="{% url 'catalogo' %}" class="btn btn-primary btn-lg">Ver Catálogo Completo</a>
+    </div>
+</div>
+{% endblock %}

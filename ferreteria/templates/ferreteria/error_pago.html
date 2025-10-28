@@ -1,0 +1,10 @@
+{% extends "ferreteria/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Pago Fallido</h2>
+    <p>Tu transacción no se pudo llevar a cabo. Ningún cargo fue realizado en su tarjeta, por favor intente nuevamente.</p>
+    <a href="{% url 'ver_carrito' %}" class="btn btn-primary">Volver al Carrito</a>
+</div>
+{% endblock %}

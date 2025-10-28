@@ -1,0 +1,15 @@
+{% extends "ferreteria/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Proceso de Compra</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p>Total: ${{ total_amount }} CLP</p>
+        <p>Costo de despacho: ${{ delivery_fee }} CLP</p>
+        <button type="submit" class="btn btn-primary">Proceder al Pago</button>
+    </form>
+</div>
+{% endblock %}
