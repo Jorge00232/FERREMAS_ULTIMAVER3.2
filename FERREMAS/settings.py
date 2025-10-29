@@ -10,6 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+
+# FERREMAS/settings.py - AGREGA ESTO AL PRINCIPIO
+
+# Parche para compatibilidad Python 3.11+
+try:
+    from ferreteria.patches import *
+    print("✅ Parche de compatibilidad aplicado")
+except ImportError as e:
+    print(f"⚠️  No se pudo aplicar parche: {e}")
+
+
+
 from pathlib import Path
 import os
 import environ
@@ -29,7 +41,14 @@ SECRET_KEY = 'django-insecure-u#eed&oozs^r3*b5$-=)o_*30s$+ye7c0xrvscsettv8vhtl#e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# En ALLOWED_HOSTS
+ALLOWED_HOSTS = [
+    '127.0.0.1', 
+    'localhost',
+    'webpay3gint.transbank.cl',    # ← WebPay ambiente de pruebas
+    'webpay3g.transbank.cl',       # ← WebPay ambiente productivo (por si acaso)
+    'testserver',                  # ← Para tests de Django
+]
 
 
 # Application definition
